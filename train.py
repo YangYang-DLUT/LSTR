@@ -71,16 +71,25 @@ def pin_memory(data_queue, pinned_data_queue, sema):
         pinned_data_queue.put(data)
 
         if sema.acquire(blocking=False):
+            '''semaphore: 多线程信号量，内部管理一个计数器
+            acquire()时计数器-1，计数器为0时若blocking = False则不会阻塞而是立即返回false
+            '''
             return
 
 def init_parallel_jobs(dbs, queue, fn):
     tasks = [Process(target=prefetch_data, args=(db, queue, fn)) for db in dbs]
+    '''Process()创建进程
+       按照db开始获取数据
+    '''
     for task in tasks:
+        '''将进程设置为“守护进程”并启动'''
         task.daemon = True
         task.start()
+        
     return tasks
 
 def train(training_dbs, validation_db, start_iter=0, freeze=False):
+    '''从config中获取训练参数'''
     learning_rate    = system_configs.learning_rate
     max_iteration    = system_configs.max_iter
     pretrained_model = system_configs.pretrain
