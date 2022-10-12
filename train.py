@@ -25,14 +25,17 @@ torch.backends.cudnn.enabled   = True
 torch.backends.cudnn.benchmark = True
 
 def parse_args():
+    '''argparse:命令行解析模块'''
     parser = argparse.ArgumentParser(description="Train CornerNet")
+    #type为传入的参数的数据类型，help是该参数的提示信息
     parser.add_argument("cfg_file", help="config file", type=str)
     parser.add_argument("--iter", dest="start_iter",
                         help="train at iteration i",
                         default=0, type=int)
     parser.add_argument("--threads", dest="threads", default=4, type=int)
     parser.add_argument("--freeze", action="store_true")
-
+    
+    #获得传入的参数
     args = parser.parse_args()
     return args
 
