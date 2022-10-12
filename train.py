@@ -40,6 +40,7 @@ def parse_args():
     return args
 
 def make_dirs(directories):
+    '''创建不存在的路径'''
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
