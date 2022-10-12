@@ -60,8 +60,10 @@ def prefetch_data(db, queue, sample_data):
             raise e
 
 def pin_memory(data_queue, pinned_data_queue, sema):
+    '''锁页内存'''
     while True:
         data = data_queue.get()
+        '''从数据队列中移除并返回一个项'''
 
         data["xs"] = [x.pin_memory() for x in data["xs"]]
         data["ys"] = [y.pin_memory() for y in data["ys"]]
