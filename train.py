@@ -46,11 +46,13 @@ def make_dirs(directories):
             os.makedirs(directory)
 
 def prefetch_data(db, queue, sample_data):
+    '''预获取数据'''
     ind = 0
     print("start prefetching data...")
     np.random.seed(os.getpid())
     while True:
         try:
+            '''异常处理，定位至错误行，错误位置及错误明细'''
             data, ind = sample_data(db, ind)
             queue.put(data)
         except Exception as e:
